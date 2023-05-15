@@ -1,0 +1,5 @@
+node_modules
+.env
+productRoutes.js
+productModel.js
+productController.js
