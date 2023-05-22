@@ -33,6 +33,7 @@ app.use(cookieParser())
 
 app.use("/api/user",require("./routes/authRoutes"))
 app.use("/api/tutorial/category",require("./routes/tutCatRoutes"))
+app.use("/api/tutorial",require("./routes/tutorialRoutes"))
 // app.use("/api/product",require("./routes/productRoutes"))
 app.use("/",require("./routes/googleRoutes"))
 

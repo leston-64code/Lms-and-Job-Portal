@@ -11,7 +11,7 @@ exports.postTutorialCaterogy=catchAsyncErrors(async(req,res,next)=>{
     const postTutCat=await TutorialCategory.create(req.body)
     return res.status(200).json({
         success:true,
-        msg:"Tutorail created successfully",
+        msg:"Tutorial category created successfully",
         postTutCat
     })
 })
