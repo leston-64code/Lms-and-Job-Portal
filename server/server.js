@@ -6,6 +6,7 @@ const session=require("express-session")
 const MongoStore=require("connect-mongo")
 const morgan=require("morgan")
 const passport = require("passport")
+const passportSetup=require("./utils/passport")
 
 const app=express()
 require("dotenv").config()
@@ -33,6 +34,10 @@ app.use(cookieParser())
 app.use("/api/user",require("./routes/authRoutes"))
 // app.use("/api/product",require("./routes/productRoutes"))
 app.use("/",require("./routes/googleRoutes"))
+
+app.get("/",(req,res,next)=>{
+    return res.send(`<a href="http://localhost:5000/auth/google"> Login with google </a>`)
+})
 
 app.use(errorMiddleware)
 
