@@ -14,6 +14,10 @@ var docSchema = new mongoose.Schema({
         type:String,
         default:"Admin"
     },
+    category:{
+        type:String,
+        required:true
+    },
     type:{
         type:String,
         required:true

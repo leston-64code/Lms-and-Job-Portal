@@ -39,6 +39,7 @@ app.use("/api/reviews",require("./routes/reviewsRoutes"))
 app.use("/api/contact",require("./routes/contactRoutes"))
 app.use("/api/videos",require("./routes/videoRoutes"))
 app.use("/api/docs",require("./routes/docRoutes"))
+app.use("/api/docscategory",require("./routes/docCatRoutes"))
 // app.use("/api/product",require("./routes/productRoutes"))
 app.use("/",require("./routes/googleRoutes"))
 
