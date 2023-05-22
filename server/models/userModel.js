@@ -21,17 +21,20 @@ let userSchema=new mongoose.Schema({
     },
     mobile:{
         type:String,
-        required:true,
-        unique:true
     },
     password:{
         type:String,
-        required:true,
         select:false,
+    },
+    picture:{
+        type:String
     },
     role:{
         type:String,
         default:"user"
+    },
+    profession:{
+        type:String
     },
     isBlocked:{
         type:Boolean,
