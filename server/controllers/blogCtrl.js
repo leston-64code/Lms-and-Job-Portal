@@ -194,36 +194,37 @@ exports.disLikeBlog=catchAsyncErrors(async(req,res,next)=>{
 })
 
 exports.uploadBlogImages=catchAsyncErrors(async(req,res,next)=>{
-    // console.log(req.files)
 
     const id=req.params.id
     const blog=await Blog.findById(id)
-    let imgUrlData=[]
-    
-    try {
+  
+    let urls=req.compressedImgs.map((ele,index)=>{
+        return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/uploads/bimgs/${ele.name}`
+      })       
 
-        for(let i=0;i<req.files.length;i++){
-            let ele=req.files[i]
-            let name=ele.filename
-            let imagepath=path.join(req.files[0].destination,"blogs",name)
-            
-            let cloudRes=await cloudinary.uploader.upload(imagepath,{resource_type:"image"})
-            
-            imgUrlData.push({
-                public_id:cloudRes.public_id,
-                url:cloudRes.secure_url
-            })
-    
-            fs.unlinkSync(ele.path)
-            fs.unlinkSync(imagepath)
-        }
+      for(let i=0;i<req.files.files.length;i++){
+        fs.unlink(req.files.files[i].path,(err)=>{
+          if(err){
+            throw new Error(err)
+          }
+        })
+        fs.unlink(req.compressedImgs[i].path,(err)=>{
+          if(err){
+            throw new Error(err)
+          }
+        })
+      }
+
+    //   return res.status(200).json({
+    //       success:true,
+    //       msg:"All images converted to webp format and uploaded successfully",
+    //       urls
+    //   })
         
-        blog.images=imgUrlData
+        blog.images=urls
         await blog.save()
     
-    } catch (error) {
-        return next(error)
-    }
+    
     return res.status(200).json({
         success:true,
         msg:"Images added successfully"

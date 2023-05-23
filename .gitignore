@@ -3,3 +3,4 @@ node_modules
 productRoutes.js
 productModel.js
 productController.js
+uploads
