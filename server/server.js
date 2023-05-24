@@ -50,6 +50,7 @@ app.use("/api/blogs",require("./routes/blogRoutes"))
 app.use("/api/coursecats",require("./routes/courseCatRoutes"))
 app.use("/api/course",require("./routes/courseRoutes"))
 app.use("/api/course/lesson",require("./routes/lessonRoutes"))
+app.use("/api/work",require("./routes/workRoutes"))
 // app.use("/api/product",require("./routes/productRoutes"))
 app.use("/",require("./routes/googleRoutes"))
 
