@@ -27,7 +27,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Middlewares
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(express.json())
 app.use(cookieParser())
 
