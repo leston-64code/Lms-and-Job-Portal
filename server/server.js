@@ -7,6 +7,7 @@ const MongoStore=require("connect-mongo")
 const morgan=require("morgan")
 const passport = require("passport")
 const passportSetup=require("./utils/passport")
+const RateLimiter=require("./utils/rateLimiter")
 
 const app=express()
 require("dotenv").config()
@@ -31,6 +32,9 @@ app.use(passport.session())
 app.use(express.json())
 app.use(cookieParser())
 
+app.set('trust proxy', 1)
+
+app.use("/api",RateLimiter(60*60*1000,"Seconds",50,"Only 50 requests allowed"))
 app.use("/api/user",require("./routes/authRoutes"))
 app.use("/api/tutorial/category",require("./routes/tutCatRoutes"))
 app.use("/api/tutorial",require("./routes/tutorialRoutes"))

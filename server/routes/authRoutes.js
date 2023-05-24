@@ -1,10 +1,11 @@
 const express=require("express")
 const { createUser, loginUser, getAllUsers, getUser, deleteUser, updateUser, blockUser, unblockUser, handleRefreshToken, logoutUser, updatePassword, forgotPasswordToken, resetPassword } = require("../controllers/userController")
 const {authMiddleware,isAdmin} = require("../middlewares/authMiddleware")
+const RateLimiter = require("../utils/rateLimiter")
 const router=express.Router()
 
 
-router.route("/register").post(createUser)
+router.route("/register").post(RateLimiter(60*60*24,"seconds",3,"Only 3 requests per day"),createUser)
 router.route("/login").post(loginUser)
 router.route("/forgotpasswordtoken").post(forgotPasswordToken)
 router.route("/reset-password/:token").post(resetPassword)
