@@ -1,13 +1,13 @@
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
-const DocCategory=require("../models/docCatModel");
+const VideoCategory=require("../models/videoCatModel");
 const ErrorHandler = require("../utils/ErrorHandler");
-const slugify=require("slugify")
+const slugifiy=require("slugify")
 
 exports.createCategory=catchAsyncErrors(async(req,res,next)=>{
-     if(req.body.title){
-          req.body.slug=slugify(req.body.title.toLowerCase())
-      }
-    const category=await DocCategory.create(req.body)
+    if(req.body.title){
+        req.body.slug=slugifiy(req.body.title.toLowerCase())
+    }
+    const category=await VideoCategory.create(req.body)
     if(category!=null){
         return res.status(200).json({
             success:true,
@@ -20,9 +20,9 @@ exports.createCategory=catchAsyncErrors(async(req,res,next)=>{
 exports.updateCategory=catchAsyncErrors(async(req,res,next)=>{
    const {id}=req.params
    if(req.body.title){
-     req.body.slug=slugify(req.body.title.toLowerCase())
- }
-   const updatedCategory=await DocCategory.findByIdAndUpdate(id,req.body,{new:true})
+        req.body.slug=slugifiy(req.body.title.toLowerCase())
+    }
+   const updatedCategory=await VideoCategory.findByIdAndUpdate(id,req.body,{new:true})
    if(updatedCategory!=null){
         return res.status(200).json({
             success:true,
@@ -35,7 +35,7 @@ exports.updateCategory=catchAsyncErrors(async(req,res,next)=>{
 
 exports.deleteCategory=catchAsyncErrors(async(req,res,next)=>{
    const {id}=req.params
-   const deletedCategory=await DocCategory.findByIdAndDelete(id)
+   const deletedCategory=await VideoCategory.findByIdAndDelete(id)
    if(deletedCategory!=null){
         return res.status(200).json({
             success:true,
@@ -48,7 +48,7 @@ exports.deleteCategory=catchAsyncErrors(async(req,res,next)=>{
 
 exports.getOneCategory=catchAsyncErrors(async(req,res,next)=>{
    const {slug}=req.params
-   const category=await DocCategory.findOne({slug:slug})
+   const category=await VideoCategory.findOne({slug:slug})
    if(category!=null){
         return res.status(200).json({
             success:true,
@@ -60,8 +60,8 @@ exports.getOneCategory=catchAsyncErrors(async(req,res,next)=>{
 })
 
 exports.getAllCategories=catchAsyncErrors(async(req,res,next)=>{
-   const categories=await DocCategory.find()
-   const categoriesCount=await DocCategory.countDocuments()
+   const categories=await VideoCategory.find()
+   const categoriesCount=await VideoCategory.countDocuments()
    if(categories!=null){
         return res.status(200).json({
             success:true,

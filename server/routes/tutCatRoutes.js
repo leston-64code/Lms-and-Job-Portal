@@ -6,7 +6,7 @@ const router=express.Router()
 
 router.route("/create").post(authMiddleware,isAdmin,postTutorialCaterogy)
 router.route("/getall").get(authMiddleware,isAdmin,getAllTutCaterogy)
-router.route("/getone/:id").get(authMiddleware,isAdmin,getOneTutCaterogy)
+router.route("/getone/:slug").get(authMiddleware,isAdmin,getOneTutCaterogy)
 router.route("/update/:id").put(authMiddleware,isAdmin,updateOneTutCaterogy)
 router.route("/delete/:id").delete(authMiddleware,isAdmin,deleteOneTutCaterogy)
 

@@ -1,8 +1,12 @@
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const BlogCategory=require("../models/docCatModel");
 const ErrorHandler = require("../utils/ErrorHandler");
+const slugifiy=require("slugify")
 
 exports.createCategory=catchAsyncErrors(async(req,res,next)=>{
+     if(req.body.title){
+          req.body.slug=slugifiy(req.body.title.toLowerCase())
+      }
     const category=await BlogCategory.create(req.body)
     if(category!=null){
         return res.status(200).json({
@@ -15,6 +19,9 @@ exports.createCategory=catchAsyncErrors(async(req,res,next)=>{
 
 exports.updateCategory=catchAsyncErrors(async(req,res,next)=>{
    const {id}=req.params
+   if(req.body.title){
+     req.body.slug=slugifiy(req.body.title.toLowerCase())
+   }
    const updatedCategory=await BlogCategory.findByIdAndUpdate(id,req.body,{new:true})
    if(updatedCategory!=null){
         return res.status(200).json({
@@ -40,8 +47,8 @@ exports.deleteCategory=catchAsyncErrors(async(req,res,next)=>{
 })
 
 exports.getOneCategory=catchAsyncErrors(async(req,res,next)=>{
-   const {id}=req.params
-   const category=await BlogCategory.findById(id)
+   const {slug}=req.params
+   const category=await BlogCategory.findOne({slug:slug})
    if(category!=null){
         return res.status(200).json({
             success:true,

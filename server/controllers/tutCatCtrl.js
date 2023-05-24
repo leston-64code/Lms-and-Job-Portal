@@ -31,8 +31,8 @@ exports.getAllTutCaterogy=catchAsyncErrors(async(req,res,next)=>{
 })
 
 exports.getOneTutCaterogy=catchAsyncErrors(async(req,res,next)=>{
-   const id=req.params.id
-   const item=await TutorialCategory.findById(id)
+   const {slug}=req.params
+   const item=await TutorialCategory.findOne({slug:slug})
    if(item!=null){
     return res.status(200).json({
         success:true,
