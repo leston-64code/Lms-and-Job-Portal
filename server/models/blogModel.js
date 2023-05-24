@@ -40,12 +40,7 @@ let blogSchema = new mongoose.Schema(
         ],
         images:[
             {
-                public_id:{
-                    type:String
-                },
-                url:{
-                    type:String
-                }
+                type:String
             }
         ],
         author: {

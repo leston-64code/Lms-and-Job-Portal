@@ -2,6 +2,7 @@ const sharp=require("sharp")
 
 exports.sharpComperssionService=async(req,res,next)=>{
     try {
+        console.log("Hello")
          if(req.files){
          
             req.compressedImgs=[]
@@ -10,11 +11,11 @@ exports.sharpComperssionService=async(req,res,next)=>{
                 let prefix=ele.filename.split(".")[0]
                 let name=prefix+".webp"
                 req.compressedImgs.push({
-                    path:`../uploads/converted/${name}`,
+                    path:`./uploads/converted/${name}`,
                     name
                 })
 
-                return await sharp(ele.path).webp({quality:80}).toFile(`../uploads/converted/${name}`)
+                return await sharp(ele.path).webp({quality:80}).toFile(`./uploads/converted/${name}`)
                 
             })).then(()=>{
                 next()

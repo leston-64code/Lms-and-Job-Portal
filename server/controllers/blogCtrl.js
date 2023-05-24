@@ -3,6 +3,7 @@ const Blog=require("../models/blogModel")
 const ErrorHandler = require("../utils/ErrorHandler")
 const path=require("path")
 const fs=require("fs")
+const { url } = require("inspector")
 
 
 
@@ -198,35 +199,55 @@ exports.uploadBlogImages=catchAsyncErrors(async(req,res,next)=>{
     const id=req.params.id
     const blog=await Blog.findById(id)
   
-    let urls=req.compressedImgs.map((ele,index)=>{
-        return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/uploads/bimgs/${ele.name}`
-      })       
+    if(blog!=null){
 
-      for(let i=0;i<req.files.files.length;i++){
-        fs.unlink(req.files.files[i].path,(err)=>{
-          if(err){
-            throw new Error(err)
+        let urls=req.compressedImgs.map((ele,index)=>{
+            return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/uploads/bimgs/${ele.name}`
+          })       
+    
+          for(let i=0;i<req.files.files.length;i++){
+            fs.unlink(req.files.files[i].path,(err)=>{
+              if(err){
+                throw new Error(err)
+              }
+            })
+            fs.unlink(req.compressedImgs[i].path,(err)=>{
+              if(err){
+                throw new Error(err)
+              }
+            })
           }
-        })
-        fs.unlink(req.compressedImgs[i].path,(err)=>{
-          if(err){
-            throw new Error(err)
-          }
-        })
-      }
-
-    //   return res.status(200).json({
-    //       success:true,
-    //       msg:"All images converted to webp format and uploaded successfully",
-    //       urls
-    //   })
-        
-        blog.images=urls
+    
+            
+        for(let i=0;i<urls.length;i++){
+            blog.images.push(urls[i])
+        }
         await blog.save()
-    
-    
-    return res.status(200).json({
-        success:true,
-        msg:"Images added successfully"
-    })
+             
+        return res.status(200).json({
+            success:true,
+            msg:"Images added successfully"
+        })
+        
+    }else{
+
+        for(let i=0;i<req.files.files.length;i++){
+            fs.unlink(req.files.files[i].path,(err)=>{
+              if(err){
+                throw new Error(err)
+              }
+            })
+            fs.unlink(req.compressedImgs[i].path,(err)=>{
+              if(err){
+                throw new Error(err)
+              }
+            })
+          }
+
+        return res.status(400).json({
+            success:false,
+            msg:"Enter valid details , images not added"
+        })
+    }
+   
 })

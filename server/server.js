@@ -41,6 +41,7 @@ app.use("/api/videos",require("./routes/videoRoutes"))
 app.use("/api/docs",require("./routes/docRoutes"))
 app.use("/api/docscategory",require("./routes/docCatRoutes"))
 app.use("/api/blogcategory",require("./routes/docCatRoutes"))
+app.use("/api/blogs",require("./routes/blogRoutes"))
 // app.use("/api/product",require("./routes/productRoutes"))
 app.use("/",require("./routes/googleRoutes"))
 
