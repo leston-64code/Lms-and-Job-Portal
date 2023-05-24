@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 var courseSchema = new mongoose.Schema({
-    name:{
+    title:{
         type:String,
         required:true,
         trim:true,
@@ -47,18 +47,19 @@ var courseSchema = new mongoose.Schema({
         required:true
     },
     enrolls:{
-        type:String,
-        required:true
+        type:Number,
+        required:true,
+        default:0
     },
     totalHours:{
         type:String,
-        required:true
+        required:true,
+        default:"0"
     },
     lessons:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Lesson",
-            required:true
         }
     ],
     ratings:[
@@ -67,14 +68,14 @@ var courseSchema = new mongoose.Schema({
             comment:String,
             postedBy:{
                 type:mongoose.Schema.Types.ObjectId,
-                ref:"User",
-                required:true  
+                ref:"User" 
             }
         }
     ],
     totalRatings:{
         type:Number,
-        required:true
+        required:true,
+        default:0
     }
 },{
     timestamps:true
