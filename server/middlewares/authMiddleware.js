@@ -51,4 +51,14 @@ const isInstructor=catchAsyncErrors(async(req,res,next)=>{
     }
 })
 
-module.exports={authMiddleware,isAdmin}
+const isBoth=catchAsyncErrors(async(req,res,next)=>{
+    const {email}=req.user
+    const isBoth=await User.findOne({email})
+    if(isBoth.role==="instructor" || isBoth.role==="admin"){
+        next()
+    }else{
+        return next(new ErrorHandler("Unauthorized , only instructors or admins",401))
+    }
+})
+
+module.exports={authMiddleware,isAdmin,isBoth,isInstructor}
