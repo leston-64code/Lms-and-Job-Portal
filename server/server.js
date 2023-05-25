@@ -51,7 +51,8 @@ app.use("/api/coursecats",require("./routes/courseCatRoutes"))
 app.use("/api/course",require("./routes/courseRoutes"))
 app.use("/api/course/lesson",require("./routes/lessonRoutes"))
 app.use("/api/work",require("./routes/workRoutes"))
-// app.use("/api/product",require("./routes/productRoutes"))
+app.use("/api/procategory",require("./routes/projectCatRoutes"))
+
 app.use("/",require("./routes/googleRoutes"))
 
 app.get("/",(req,res,next)=>{

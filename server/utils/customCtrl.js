@@ -1,9 +1,13 @@
 const catchAsyncErrors=require("../middlewares/catchAsyncErrors")
 const ErrorHandler = require("../utils/ErrorHandler")
 const apiQuery = require("./apiQuery")
+const slugify=require("slugify")
 
 exports.createDocument=(Model,msg)=>{
     return catchAsyncErrors(async(req,res,next)=>{
+        if(req.body.title){
+            req.body.slug=slugify(req.body.title.toLowerCase())
+        }
         const document=await Model.create(req.body)
         if(document!=null){
             return res.status(200).json({
@@ -19,6 +23,9 @@ exports.createDocument=(Model,msg)=>{
 exports.updateDocument=(Model,msg)=>{
     return catchAsyncErrors(async(req,res,next)=>{
         const {id}=req.params
+        if(req.body.title){
+            req.body.slug=slugify(req.body.title.toLowerCase())
+        }
         const document=await Model.findByIdAndUpdate(id,req.body,{new:true})
         if(document!=null){
             return res.status(200).json({
