@@ -1,5 +1,6 @@
 const catchAsyncErrors=require("../middlewares/catchAsyncErrors")
 const ErrorHandler = require("../utils/ErrorHandler")
+const apiQuery = require("./apiQuery")
 
 exports.createDocument=(Model,msg)=>{
     return catchAsyncErrors(async(req,res,next)=>{
@@ -73,15 +74,18 @@ exports.getDocument=(Model,msg,populateOptions)=>{
 
 exports.getAllDocuments=(Model,populateOptions)=>{
     return catchAsyncErrors(async(req,res,next)=>{
-        console.log(req.query)
-        let documents=await Model.find()
-        let count=documents.length
-        if(documents!=null){
+       
+        let filter={}
+        const features=new apiQuery(Model.find(filter),req.query).filter().sort().limitFields().pagination()
+
+        const data=await features.documents
+        let count=data.length
+        if(data!=null){
             return res.status(200).json({
                 success:true,
-                msg:"Fetched succe ssfully",
+                msg:"Fetched successfully",
                 count,
-                documents
+                data
             })
         }else{
             return next(new ErrorHandler("Could not be fetched"))
